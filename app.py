@@ -24,7 +24,6 @@ class NewPostForm(Form):
 @app.route('/')
 def index():
     posts = Post.query.all()
-    print(posts)
     return render_template("index.html", posts=posts)
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -37,14 +36,23 @@ def new_post():
         return redirect(url_for('index'))
     return render_template("new.html", form=form)
 
-@app.route('/create')
-def create():
-    return index()
-
-@app.route('/delete/<id>')
+@app.route('/del/<id>')
 def delete(id):
-    return index()
+    post = Post.query.filter_by(id=id).delete()
+    db.session.commit()
+    return redirect(url_for('index'))
 
-@app.route('/edit/<id>')
+@app.route('/edit/<id>', methods=['GET', 'POST'])
 def update(id):
-    return index()
+    post = Post.query.filter_by(id=id).one()
+    form = NewPostForm(obj=post)
+
+    if request.method == 'POST':
+        form = NewPostForm(request.form)
+        if form.validate():
+            post.title = form.title.data
+            post.body = form.body.data
+            db.session.commit()
+            return redirect(url_for('index'))
+
+    return render_template("edit.html", form=form)
