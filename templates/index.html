@@ -1,8 +1,16 @@
-<!doctype html>
-<title> Blog Application </title>
-<h1> Blog Application </h1>
-<hr>
+{% extends "base.html" %}
+
+{% block content %}
+
+<a class="btn btn-primary" href="/new">
+  <i class="far fa-plus-square"></i> New</a>
+
+{% if posts %}
 {% for post in posts %}
-<h2> post.title </h2>
-<p> post.body </p>
+<h2> {{ post.title }} </h2>
+<p> <a class="btn btn-primary" href="/edit/{{  post.id  }}"><i class="fas fa-edit"></i></a><a class="btn btn-danger" href="/del/{{ post.id }}"><i class="fas fa-trash"></i></a></p>
+<p>{{  post.body  }}</p>
+<hr>
 {% endfor %}
+{% endif %}
+{% endblock content %}
