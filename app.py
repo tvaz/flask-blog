@@ -1,25 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-from wtforms import Form, StringField, validators
+from db import db, Post
+from forms import NewPostForm
 
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-class Post(db.Model):
-    id = db.Column('id', db.Integer, primary_key = True, autoincrement = True)
-    title = db.Column(db.String(), nullable=False)
-    body = db.Column(db.String(), nullable=False)
-    
-    def __repr__(self):
-        return 'Post: "{}"'.format(self.title)
-#db.create_all()
-
-class NewPostForm(Form):
-    title = StringField('Title', [validators.length(min=1, max=120)])
-    body = StringField('Body', [validators.length(min=1, max=2000)]) 
 
 @app.route('/')
 def index():
