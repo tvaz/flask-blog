@@ -1,5 +1,5 @@
-from wtforms import Form, StringField, validators
+from wtforms import Form, StringField, TextAreaField, validators
 
 class NewPostForm(Form):
     title = StringField('Title', [validators.length(min=1, max=120)])
-    body = StringField('Body', [validators.length(min=1, max=2000)])
+    body = TextAreaField('Body', [validators.length(min=1, max=2000)])

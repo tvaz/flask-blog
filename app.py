@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import db, Post
+from db import db, Post, sqlite_url
 from forms import NewPostForm
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = sqlite_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+db.create_all()
 
 @app.route('/')
 def index():
