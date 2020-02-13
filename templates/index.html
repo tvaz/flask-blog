@@ -7,10 +7,7 @@
 
 {% if posts %}
 {% for post in posts %}
-<h2> {{ post.title }} </h2>
-<p> <a class="btn btn-primary" href="/edit/{{  post.id  }}"><i class="fas fa-edit"></i></a><a class="btn btn-danger" href="/del/{{ post.id }}"><i class="fas fa-trash"></i></a></p>
-<p>{{  post.body  }}</p>
-<hr>
+<a href="/post/{{ post.id  }}"><h2> {{ post.title }} </h2></a>
 {% endfor %}
 {% endif %}
 {% endblock content %}
